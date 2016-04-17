@@ -6,6 +6,11 @@ from distutils.core import setup, Extension, Command
 
 MINIMUM_CYTHON_VERSION = '0.13'
 
+
+def cmp(a, b):
+    return (a > b) - (a < b)
+
+
 class TestCommand(Command):
     description = 'Run packaged tests'
     user_options = []
@@ -74,7 +79,7 @@ def get_authors():
 def main():
     setup(
         name="re2",
-        version="0.2.20",
+        version="0.2.23",
         description="Python wrapper for Google's RE2 using Cython",
         long_description=get_long_description(),
         author=get_authors(),
@@ -88,6 +93,7 @@ def main():
                 language="c++",
                 include_dirs=[os.path.join(re2_prefix, "include")] if re2_prefix else [],
                 libraries=["re2"],
+                extra_compile_args=['-std=c++11'],
                 library_dirs=[os.path.join(re2_prefix, "lib")] if re2_prefix else [],
                 runtime_library_dirs=[os.path.join(re2_prefix, "lib")] if re2_prefix else [],
             )
